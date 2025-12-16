@@ -178,12 +178,11 @@
 <section>
   <h2>Projects & Practical Work</h2>
   <ul>
-    <li>Deployed and configured a <strong>pfSense firewall</strong> in a home lab environment</li>
-    <li>Designed firewall rules, NAT policies, and network segmentation</li>
-    <li>Tested firewall effectiveness using <strong>Metasploit Framework</strong></li>
-    <li>Performed controlled DNS spoofing attacks using <strong>Ettercap</strong> (lab environment)</li>
-    <li>Conducted vulnerability scanning with <strong>Tenable Nessus</strong></li>
-    <li>Used <strong>Netcat</strong> for network troubleshooting and basic security testing</li>
+    <li>Configured a <strong>pfSense firewall</strong> and tested it in a home lab</li>
+    <li>Basic use of <strong>Metasploit Framework</strong> for lab testing</li>
+    <li>Hands-on experience with <strong>Netcat</strong>, <strong>Tenable Nessus</strong>, and <strong>Ettercap</strong></li>
+    <li>Participated in CTFs, including <strong>OverTheWire: Bandit</strong></li>
+    <li>Extensive homelabbing for networking, firewalling, and security practice</li>
   </ul>
 </section>
 
@@ -193,9 +192,7 @@
     Strong hands-on focus through home lab environments and security training platforms.
   </p>
   <ul style="margin-top: 0.8rem;">
-    <li>Completed multiple defensive and SOC-focused labs on TryHackMe</li>
-    <li>CTF participant, including completion of <strong>OverTheWire: Bandit</strong></li>
-    <li>Extensive homelabbing experience for networking, firewalling, and security testing</li>
+    <li>Completed multiple SOC-focused labs on TryHackMe</li>
   </ul>
   <p style="margin-top: 0.8rem;">
     TryHackMe Profile:
@@ -242,12 +239,7 @@
     const MAX_DISTANCE = 150;
 
     for(let i=0; i<NODE_COUNT; i++){
-      nodes.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random()-0.5)*0.5,
-        vy: (Math.random()-0.5)*0.5
-      });
+      nodes.push({ x: Math.random() * width, y: Math.random() * height, vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5 });
     }
 
     const mouse = {x: null, y: null};
@@ -256,56 +248,35 @@
 
     function animate(){
       ctx.clearRect(0,0,width,height);
-
       nodes.forEach(node => {
-        node.x += node.vx;
-        node.y += node.vy;
+        node.x += node.vx; node.y += node.vy;
         if(node.x < 0 || node.x > width) node.vx *= -1;
         if(node.y < 0 || node.y > height) node.vy *= -1;
-
         ctx.fillStyle = 'rgba(56,189,248,0.6)';
-        ctx.beginPath();
-        ctx.arc(node.x,node.y,2,0,Math.PI*2);
-        ctx.fill();
+        ctx.beginPath(); ctx.arc(node.x,node.y,2,0,Math.PI*2); ctx.fill();
       });
-
-      // Connect nodes
-      for(let i=0; i<NODE_COUNT; i++){
+      for(let i=0;i<NODE_COUNT;i++){
         for(let j=i+1;j<NODE_COUNT;j++){
-          const dx = nodes[i].x - nodes[j].x;
-          const dy = nodes[i].y - nodes[j].y;
-          const dist = Math.sqrt(dx*dx + dy*dy);
-          if(dist < MAX_DISTANCE){
-            let opacity = 1 - dist/MAX_DISTANCE;
-            ctx.strokeStyle = `rgba(56,189,248,${opacity*0.5})`;
-            ctx.beginPath();
-            ctx.moveTo(nodes[i].x,nodes[i].y);
-            ctx.lineTo(nodes[j].x,nodes[j].y);
-            ctx.stroke();
+          const dx=nodes[i].x-nodes[j].x; const dy=nodes[i].y-nodes[j].y;
+          const dist=Math.sqrt(dx*dx+dy*dy);
+          if(dist<MAX_DISTANCE){
+            ctx.strokeStyle = `rgba(56,189,248,${(1-dist/MAX_DISTANCE)*0.5})`;
+            ctx.beginPath(); ctx.moveTo(nodes[i].x,nodes[i].y); ctx.lineTo(nodes[j].x,nodes[j].y); ctx.stroke();
           }
         }
       }
-
-      // Connect to mouse
-      if(mouse.x !== null && mouse.y !== null){
-        nodes.forEach(node => {
-          const dx = node.x - mouse.x;
-          const dy = node.y - mouse.y;
-          const dist = Math.sqrt(dx*dx + dy*dy);
-          if(dist < MAX_DISTANCE){
-            let opacity = 1 - dist/MAX_DISTANCE;
-            ctx.strokeStyle = `rgba(56,189,248,${opacity*0.7})`;
-            ctx.beginPath();
-            ctx.moveTo(node.x,node.y);
-            ctx.lineTo(mouse.x,mouse.y);
-            ctx.stroke();
+      if(mouse.x!==null && mouse.y!==null){
+        nodes.forEach(node=>{
+          const dx=node.x-mouse.x; const dy=node.y-mouse.y;
+          const dist=Math.sqrt(dx*dx+dy*dy);
+          if(dist<MAX_DISTANCE){
+            ctx.strokeStyle=`rgba(56,189,248,${(1-dist/MAX_DISTANCE)*0.7})`;
+            ctx.beginPath(); ctx.moveTo(node.x,node.y); ctx.lineTo(mouse.x,mouse.y); ctx.stroke();
           }
         });
       }
-
       requestAnimationFrame(animate);
     }
-
     animate();
   </script>
 
