@@ -4,7 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Junior SOC Analyst | Portfolio</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --bg: #0f172a;
@@ -61,6 +63,17 @@
       padding: 2rem;
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+
+      /* Scroll reveal initial state */
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    /* Revealed state */
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     ul {
@@ -95,14 +108,15 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
 
     <header>
-      <h1>Seifeldien Galal Junior SOC Analyst</h1>
+      <h1>Seifeldien Galal | Junior SOC Analyst</h1>
       <p>
-        Fresh graduate in computer engineering  focused on security monitoring, network traffic analysis, and incident triage.
-        Strong background in networking, firewall administration, and Linux systems.
+        Fresh graduate in computer engineering focused on security monitoring, network traffic analysis,
+        and incident triage. Strong background in networking, firewall administration, and Linux systems.
       </p>
     </header>
 
@@ -154,5 +168,24 @@
     </footer>
 
   </div>
+
+  <!-- Scroll Reveal Script -->
+  <script>
+    const sections = document.querySelectorAll("section");
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    sections.forEach(section => observer.observe(section));
+  </script>
 </body>
 </html>
